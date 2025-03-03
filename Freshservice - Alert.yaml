@@ -1,0 +1,38 @@
+# This is an exported workflow. Editing this file is not recommended.
+
+name: Freshservice - Alert
+trigger:
+    next:
+        - call_webhook_36992610
+    event: Investigatable
+actions:
+    call_webhook_36992610:
+        id: 450fa6add611335063035c5cf0bb87eb
+        properties:
+            _fields:
+                - ${Workflow.Definition.Name}
+                - ${Trigger.Category.Investigatable.Severity}
+                - ${Trigger.Category.Investigatable.Status}
+                - ${Trigger.Category.Investigatable.Description}
+                - ${Workflow.Execution.Time}
+                - ${Trigger.Name}
+                - ${Trigger.SourceEventURL}
+                - ${Trigger.Category.Investigatable.InvestigatableID}
+                - ${Trigger.Category.Investigatable.Name}
+                - ${Trigger.Category.Investigatable.TacticNames}
+                - ${Trigger.Category.Investigatable.TechniqueNames}
+                - ${Trigger.Category.Investigatable.Product}
+                - ${Trigger.Category.Investigatable.Tags}
+            config_id: 72e1a47bfe8944f3b3f1179ca18a5d6a
+            custom_json:
+                Description: ${Trigger.Category.Investigatable.Description}
+                Name: ${Trigger.Category.Investigatable.Name}
+                ObservedTime: ${Workflow.Execution.Time.Date}
+                Products: ${Trigger.Category.Investigatable.Product}
+                Severity: ${Trigger.Category.Investigatable.Severity}
+                Tactics: ${Trigger.Category.Investigatable.TacticNames}
+                Techniques: ${Trigger.Category.Investigatable.TechniqueNames}
+                TriggerCategory: ${Trigger.Category}
+                TriggerName: ${Trigger.Name}
+                URL: ${Trigger.SourceEventURL}
+            datatype: custom_json

@@ -1,0 +1,20 @@
+# This is an exported workflow. Editing this file is not recommended.
+
+name: Close Low ITP Alerts
+trigger:
+    next:
+        - severity_is_less_than_or_equal_to_low_0d130f2e
+    event: Investigatable/IDP
+actions:
+    set_alert_status_58c46d3c:
+        id: beb56cc40d334583671ca91e6e390056
+        properties:
+            investigatable_id: ${Trigger.Category.Investigatable.InvestigatableID}
+            status: ignored
+conditions:
+    severity_is_less_than_or_equal_to_low_0d130f2e:
+        next:
+            - set_alert_status_58c46d3c
+        expression: Trigger.Category.Investigatable.Severity:<=2
+        display:
+            - Severity is less than or equal to Low
