@@ -1,0 +1,39 @@
+# This is an exported workflow. Editing this file is not recommended.
+
+name: remove_old_tags
+trigger:
+    next:
+        - event_query___remove_old_tags_727fe12e
+    event: Schedule
+    schedule:
+        time_cycle: 0 9 1 */1 *
+        start_date: ""
+        end_date: ""
+        tz: America/Chicago
+        skip_concurrent: false
+actions:
+    event_query___remove_old_tags_727fe12e:
+        next:
+            - activity_727fe12e_ef44_4d8b_8406_6d4893c8e6cd_logscale_searchresult_remove_old_tags_results_3907818e
+        id: 4c5a59a46c174b6885a0443d1efa6667_4c5a59a46c174b6885a0443d1efa6667_0cd7f532fc3246f3925e1bb81f93667e
+        properties:
+            output_files_only: false
+            workflow_csv_header_fields: []
+            workflow_export_event_query_results_to_csv: false
+loops:
+    activity_727fe12e_ef44_4d8b_8406_6d4893c8e6cd_logscale_searchresult_remove_old_tags_results_3907818e:
+        display: For each Event query results; Concurrently
+        for:
+            input: event_query___remove_old_tags_727fe12e.LogScale.SearchResult.remove_old_tags.results
+            continue_on_partial_execution: true
+            sequential: false
+        trigger:
+            next:
+                - remove_falcon_grouping_tags_e4e19cea
+        actions:
+            remove_falcon_grouping_tags_e4e19cea:
+                id: b64ae82fb55eb05505a222bb9be0b466
+                properties:
+                    device_id: ${event_query___remove_old_tags_727fe12e.LogScale.SearchResult.remove_old_tags.results.#.aid}
+                    tags:
+                        - FalconGroupingTags/old_sensors
