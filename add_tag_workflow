@@ -1,0 +1,39 @@
+# This is an exported workflow. Editing this file is not recommended.
+
+name: add_tag
+trigger:
+    next:
+        - event_query___sensor_report_c7941083
+    event: Schedule
+    schedule:
+        time_cycle: 0 8 1 */1 *
+        start_date: ""
+        end_date: ""
+        tz: America/Chicago
+        skip_concurrent: false
+actions:
+    event_query___sensor_report_c7941083:
+        next:
+            - activity_c7941083_684a_4778_b39e_dda36c34cf7f_logscale_searchresult_sensor_report_results_202965eb
+        id: 4c5a59a46c174b6885a0443d1efa6667_4c5a59a46c174b6885a0443d1efa6667_6a064d20a2dc4cd6a38bc543c536acb8
+        properties:
+            output_files_only: false
+            workflow_csv_header_fields: []
+            workflow_export_event_query_results_to_csv: false
+loops:
+    activity_c7941083_684a_4778_b39e_dda36c34cf7f_logscale_searchresult_sensor_report_results_202965eb:
+        display: For each Event query results; Concurrently
+        for:
+            input: event_query___sensor_report_c7941083.LogScale.SearchResult.sensor_report.results
+            continue_on_partial_execution: true
+            sequential: false
+        trigger:
+            next:
+                - add_falcon_grouping_tags_59c0b9d3
+        actions:
+            add_falcon_grouping_tags_59c0b9d3:
+                id: a37b064a5b07e2d0c7cb2b101f0a85f5
+                properties:
+                    device_id: ${event_query___sensor_report_c7941083.LogScale.SearchResult.sensor_report.results.#.aid}
+                    tags:
+                        - FalconGroupingTags/old_sensors
